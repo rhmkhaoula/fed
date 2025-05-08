@@ -222,7 +222,7 @@ void UAVSensorAppFedAvg::sendModelUpdate() {
     const auto& fedAvgMsg = makeShared<FedAvgMessage>();
     fedAvgMsg->setMessageType(LOCAL_UPDATE);
     fedAvgMsg->setRoundId(currentRound);
-    fedAvgMsg->setModelWeights(localModel.serialize());
+    fedAvgMsg->setModelWeights(localModel.serialize().c_str());
     fedAvgMsg->setUavId(uavId);
     fedAvgMsg->setAccuracy(evaluateModel());
     fedAvgMsg->setSamplesCount(trainingData.size());
