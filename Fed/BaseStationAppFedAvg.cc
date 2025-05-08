@@ -99,7 +99,7 @@ void BaseStationAppFedAvg::broadcastGlobalModel() {
     const auto& fedAvgMsg = makeShared<FedAvgMessage>();
     fedAvgMsg->setMessageType(GLOBAL_UPDATE);
     fedAvgMsg->setRoundId(currentRound);
-    fedAvgMsg->setModelWeights(globalModel.serialize());
+    fedAvgMsg->setModelWeights(globalModel.serialize().c_str());
     fedAvgMsg->setUavId(-1);  // -1 signifie station de base
 
     // Ajouter le message au paquet
