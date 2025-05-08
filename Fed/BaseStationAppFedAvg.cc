@@ -4,6 +4,9 @@
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "inet/networklayer/common/L3AddressTag_m.h"
+#include "inet/common/packet/Packet.h"
+#include "inet/common/packet/chunk/Chunk.h"
+#include "inet/common/Ptr.h"
 
 Define_Module(BaseStationAppFedAvg);
 
