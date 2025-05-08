@@ -40,8 +40,10 @@ void BaseStationAppFedAvg::initialize(int stage) {
     }
     else if (stage == INITSTAGE_APPLICATION_LAYER) {
         socket.setOutputGate(gate("socketOut"));
-        socket.bind(fedAvgPort);  // Utiliser le port FedAvg dédié
         socket.setCallback(this);
+        
+        // Only bind the socket here, not in handleStartOperation as well
+        socket.bind(localPort);
 
         // Initialiser le timer pour la première ronde
         roundTimer = new cMessage("roundTimer");
@@ -249,7 +251,7 @@ void BaseStationAppFedAvg::socketClosed(UdpSocket *socket) {
 
 void BaseStationAppFedAvg::handleStartOperation(LifecycleOperation *operation) {
     socket.setOutputGate(gate("socketOut"));
-    socket.bind(fedAvgPort);
+    // Remove the duplicate socket binding from here
     socket.setCallback(this);
 
     roundTimer = new cMessage("roundTimer");
