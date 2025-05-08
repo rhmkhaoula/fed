@@ -48,8 +48,12 @@ void UAVSensorAppFedAvg::initialize(int stage) {
     else if (stage == INITSTAGE_APPLICATION_LAYER) {
         // Configuration du socket
         socket.setOutputGate(gate("socketOut"));
-        socket.bind(localPort);
         socket.setCallback(this);
+        
+        // Only bind the socket here if localPort is specified
+        if (localPort > 0) {
+            socket.bind(localPort);
+        }
 
         // Résolution de l'adresse de la station de base pour les données normales
         const char *destAddrs = par("destAddresses");
@@ -291,8 +295,12 @@ void UAVSensorAppFedAvg::socketClosed(UdpSocket *socket) {
 
 void UAVSensorAppFedAvg::handleStartOperation(LifecycleOperation *operation) {
     socket.setOutputGate(gate("socketOut"));
-    socket.bind(localPort);
     socket.setCallback(this);
+    // Remove the duplicate socket binding from here
+    // Only bind if localPort is valid
+    if (localPort > 0 && !socket.isOpen()) {
+        socket.bind(localPort);
+    }
 
     if (!destAddress.isUnspecified()) {
         sendTimer = new cMessage("sendTimer");
